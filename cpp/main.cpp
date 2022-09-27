@@ -162,40 +162,41 @@ static int handleSubcommand(const string& subcommand, const vector<string>& args
   return 0;
 }
 
+extern "C" {
+  int main(int argc, const char* const* argv) {
+    vector<string> args = MainArgs::getCommandLineArgsUTF8(argc,argv);
+    MainArgs::makeCoutAndCerrAcceptUTF8();
 
-int main(int argc, const char* const* argv) {
-  vector<string> args = MainArgs::getCommandLineArgsUTF8(argc,argv);
-  MainArgs::makeCoutAndCerrAcceptUTF8();
+    if(args.size() < 2) {
+      printHelp(args);
+      return 0;
+    }
+    string cmdArg = string(args[1]);
+    if(cmdArg == "-h" || cmdArg == "--h" || cmdArg == "-help" || cmdArg == "--help" || cmdArg == "help") {
+      printHelp(args);
+      return 0;
+    }
 
-  if(args.size() < 2) {
-    printHelp(args);
-    return 0;
+  #if defined(OS_IS_WINDOWS)
+    //On windows, uncaught exceptions reaching toplevel don't normally get printed out,
+    //so explicitly catch everything and print
+    int result;
+    try {
+      result = handleSubcommand(cmdArg, args);
+    }
+    catch(std::exception& e) {
+      cerr << "Uncaught exception: " << e.what() << endl;
+      return 1;
+    }
+    catch(...) {
+      cerr << "Uncaught exception that is not a std::exception... exiting due to unknown error" << endl;
+      return 1;
+    }
+    return result;
+  #else
+    return handleSubcommand(cmdArg, args);
+  #endif
   }
-  string cmdArg = string(args[1]);
-  if(cmdArg == "-h" || cmdArg == "--h" || cmdArg == "-help" || cmdArg == "--help" || cmdArg == "help") {
-    printHelp(args);
-    return 0;
-  }
-
-#if defined(OS_IS_WINDOWS)
-  //On windows, uncaught exceptions reaching toplevel don't normally get printed out,
-  //so explicitly catch everything and print
-  int result;
-  try {
-    result = handleSubcommand(cmdArg, args);
-  }
-  catch(std::exception& e) {
-    cerr << "Uncaught exception: " << e.what() << endl;
-    return 1;
-  }
-  catch(...) {
-    cerr << "Uncaught exception that is not a std::exception... exiting due to unknown error" << endl;
-    return 1;
-  }
-  return result;
-#else
-  return handleSubcommand(cmdArg, args);
-#endif
 }
 
 

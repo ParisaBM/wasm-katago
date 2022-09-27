@@ -7,6 +7,11 @@ include_directories(external)
 include_directories(external/tclap-1.2.2/include)
 include_directories(SYSTEM external/filesystem-1.5.8/include) #SYSTEM suppresses a few warnings
 
+set(Eigen3_DIR /usr/lib/cmake/eigen3)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ZLIB=1")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msimd128")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS='[\"_main\"]'")
+set(CMAKE_CXX_FLAGS "-s EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
 #--------------------------- PLATFORM SPECIFIC -------------------------------------------------------------------------
 
 if(APPLE)
@@ -396,7 +401,7 @@ endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
   message(STATUS "Setting up build for GNU or Clang.")
   if(NOT (${CMAKE_SYSTEM_PROCESSOR} MATCHES "(arm|aarch32|aarch64)"))
-    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mfpmath=sse")
+    # set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mfpmath=sse")
   endif()
   if(USE_AVX2)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -mavx2 -mfma")
@@ -420,7 +425,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
   else()
     message(STATUS "Enabling Clang-specific build options.")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wnull-dereference -Wdangling-else")
-    target_link_libraries(katago "atomic")
+    # target_link_libraries(katago "atomic")
   endif()
 
   if(USE_TCMALLOC)

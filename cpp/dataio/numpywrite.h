@@ -2,6 +2,7 @@
 #define DATAIO_NUMPYWRITE_H_
 
 #include "../core/global.h"
+#include <endian.h>
 
 /*
   Usage: Users should create this with the appropriate shape, then write into "data".
