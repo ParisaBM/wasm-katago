@@ -31,6 +31,7 @@ cpp/tests/scratch
 cpp/katago.data
 cpp/katago.js
 cpp/katago.wasm
+cpp/katago.html
 
 cpp/program/gitinfo.h
 

@@ -14,6 +14,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS='[\"_bootstrap\"]'
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file model.bin.gz")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file gtp_custom.cfg")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --shell-file template.html")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 #--------------------------- PLATFORM SPECIFIC -------------------------------------------------------------------------
 
 if(APPLE)
@@ -258,6 +260,14 @@ add_executable(katago
   command/tune.cpp
   main.cpp
   )
+
+  set_target_properties(
+    katago
+    PROPERTIES
+      OUTPUT_NAME "katago"
+      SUFFIX ".html"
+  )
+  
 
 if(USE_BACKEND STREQUAL "CUDA")
   target_compile_definitions(katago PRIVATE USE_CUDA_BACKEND)
