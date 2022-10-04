@@ -1,1 +1,2 @@
 cpp/external/mozilla-cacerts/cacert.pem binary
+cpp/model.bin.gz filter=lfs diff=lfs merge=lfs -text

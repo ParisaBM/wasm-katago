@@ -10,8 +10,10 @@ include_directories(SYSTEM external/filesystem-1.5.8/include) #SYSTEM suppresses
 set(Eigen3_DIR /usr/lib/cmake/eigen3)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ZLIB=1")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msimd128")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS='[\"_main\"]'")
-set(CMAKE_CXX_FLAGS "-s EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_FUNCTIONS='[\"_bootstrap\"]'")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s EXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file model.bin.gz")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file gtp_custom.cfg")
 #--------------------------- PLATFORM SPECIFIC -------------------------------------------------------------------------
 
 if(APPLE)

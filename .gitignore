@@ -28,6 +28,9 @@ cpp/runmatchauto.sh
 cpp/runstuff.sh
 cpp/runwrite.sh
 cpp/tests/scratch
+cpp/katago.data
+cpp/katago.js
+cpp/katago.wasm
 
 cpp/program/gitinfo.h
 

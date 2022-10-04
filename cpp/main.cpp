@@ -162,43 +162,51 @@ static int handleSubcommand(const string& subcommand, const vector<string>& args
   return 0;
 }
 
-extern "C" {
-  int main(int argc, const char* const* argv) {
-    vector<string> args = MainArgs::getCommandLineArgsUTF8(argc,argv);
-    MainArgs::makeCoutAndCerrAcceptUTF8();
-
-    if(args.size() < 2) {
-      printHelp(args);
-      return 0;
-    }
-    string cmdArg = string(args[1]);
-    if(cmdArg == "-h" || cmdArg == "--h" || cmdArg == "-help" || cmdArg == "--help" || cmdArg == "help") {
-      printHelp(args);
-      return 0;
-    }
-
-  #if defined(OS_IS_WINDOWS)
-    //On windows, uncaught exceptions reaching toplevel don't normally get printed out,
-    //so explicitly catch everything and print
-    int result;
-    try {
-      result = handleSubcommand(cmdArg, args);
-    }
-    catch(std::exception& e) {
-      cerr << "Uncaught exception: " << e.what() << endl;
-      return 1;
-    }
-    catch(...) {
-      cerr << "Uncaught exception that is not a std::exception... exiting due to unknown error" << endl;
-      return 1;
-    }
-    return result;
-  #else
-    return handleSubcommand(cmdArg, args);
-  #endif
+//Was the main function of katago, we add a wrapper however
+int old_main(vector<string> args) {
+  if(args.size() < 2) {
+    printHelp(args);
+    return 0;
   }
+  string cmdArg = string(args[1]);
+  if(cmdArg == "-h" || cmdArg == "--h" || cmdArg == "-help" || cmdArg == "--help" || cmdArg == "help") {
+    printHelp(args);
+    return 0;
+  }
+
+#if defined(OS_IS_WINDOWS)
+  //On windows, uncaught exceptions reaching toplevel don't normally get printed out,
+  //so explicitly catch everything and print
+  int result;
+  try {
+    result = handleSubcommand(cmdArg, args);
+  }
+  catch(std::exception& e) {
+    cerr << "Uncaught exception: " << e.what() << endl;
+    return 1;
+  }
+  catch(...) {
+    cerr << "Uncaught exception that is not a std::exception... exiting due to unknown error" << endl;
+    return 1;
+  }
+  return result;
+#else
+  return handleSubcommand(cmdArg, args);
+#endif
 }
 
+extern "C" {
+  void bootstrap(char* line) {
+    vector<string> args;
+    args.push_back("katago");
+    istringstream lineStream(line);
+    string arg;
+    while(getline(lineStream, arg, ' ')) {
+      args.push_back(arg);
+    }
+    old_main(args);
+  }
+}
 
 string Version::getKataGoVersion() {
   return string("1.11.0");
