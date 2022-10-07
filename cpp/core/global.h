@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "web_interface.h"
 
 //GLOBAL DEFINES AND FLAGS----------------------------------------------------
 #ifdef __GNUG__  //On g++ only

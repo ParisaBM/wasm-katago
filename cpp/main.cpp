@@ -15,6 +15,8 @@
 #include "../core/using.h"
 //------------------------
 
+#include "core/web_interface.h"
+
 static void printHelp(const vector<string>& args) {
   cout << endl;
   if(args.size() >= 1)
@@ -196,15 +198,13 @@ int old_main(vector<string> args) {
 }
 
 extern "C" {
-  void bootstrap(char* line) {
-    vector<string> args;
-    args.push_back("katago");
-    istringstream lineStream(line);
-    string arg;
-    while(getline(lineStream, arg, ' ')) {
-      args.push_back(arg);
-    }
-    old_main(args);
+  int main() {
+    cout << "before" << endl;
+    int n;
+    web_interface::cin >> n;
+    cout << n << endl;
+    cout << "after" << endl;
+    return 0;
   }
 }
 

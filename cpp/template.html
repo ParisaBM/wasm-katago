@@ -64,21 +64,25 @@
       <input type="button" value="Fullscreen" onclick="Module.requestFullscreen(document.getElementById('pointerLock').checked,
                                                                                 document.getElementById('resize').checked)">
     </div>
+    <input id="input_forum" type="text" onkeypress="keyPressed(event)">
 
     <hr/>
     <textarea class="emscripten" id="output" rows="8"></textarea>
     <hr>
-
-    <input id="input_forum" type="text" onkeypress="keyPressed(event)">
     <script type='text/javascript'>
+      var resolve_input;
+      async function get_input() {
+        return new Promise((res) => resolve_input=res);
+      }
+
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
-      
+
       function keyPressed(event) {
         if (event.key == "Enter") {
-          input_forum = document.getElementById("input_forum");
-          Module.ccall('bootstrap', null, ['string'], [input_forum.value]);
+          provided = document.getElementById("input_forum").value;
+          resolve_input(provided);
         }
       }
 
@@ -102,7 +106,6 @@
             }
           };
         })(),
-        printErr: function(text){alert(text);},
         canvas: (function() {
           var canvas = document.getElementById('canvas');
 
