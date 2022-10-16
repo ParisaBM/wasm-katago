@@ -1,21 +1,19 @@
 #include "web_interface.h"
+#include <stdlib.h>
 
-namespace web_interface {
-    EM_ASYNC_JS(char*, do_fetch, (), {
-        var jsString = await get_input();
+EM_JS(char*, do_fetch, (), {
+  return Asyncify.handleAsync(function () {
+    out("waiting for a fetch");
+    const p = new Promise((res) => resolve_input = res);
+    return p.then(function (jsString) {
         var lengthBytes = lengthBytesUTF8(jsString)+1;
         var stringOnWasmHeap = _malloc(lengthBytes);
         stringToUTF8(jsString, stringOnWasmHeap, lengthBytes);
         return stringOnWasmHeap;
     });
+  });
+});
 
-    template <typename T>
-    custom_istream& operator>>(custom_istream& ci, T& obj) {
-        char* received = do_fetch();
-        std::istringstream is(received);
-        is >> obj;
-        return ci;
-    }
-
-    custom_istream cin = custom_istream();
+namespace web_interface {
+  custom_istream cin = custom_istream();
 }
