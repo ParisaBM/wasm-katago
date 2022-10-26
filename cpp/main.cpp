@@ -15,8 +15,6 @@
 #include "../core/using.h"
 //------------------------
 
-#include "core/web_interface.h"
-
 static void printHelp(const vector<string>& args) {
   cout << endl;
   if(args.size() >= 1)
@@ -165,7 +163,7 @@ static int handleSubcommand(const string& subcommand, const vector<string>& args
 }
 
 //Was the main function of katago, we add a wrapper however
-int old_main(vector<string> args) {
+int oldMain(vector<string> args) {
   if(args.size() < 2) {
     printHelp(args);
     return 0;
@@ -199,11 +197,18 @@ int old_main(vector<string> args) {
 
 extern "C" {
   int main() {
-    cout << "before" << endl;
-    int n;
-    web_interface::cin >> n;
-    cout << n << endl;
-    cout << "after" << endl;
+    vector<string> args;
+    args.push_back("katago");
+    std::string line;
+    while (true) {
+      WebInterface::getline(WebInterface::cin, line);
+      istringstream lineStream(line);
+      string arg;
+      while(getline(lineStream, arg, ' ')) {
+        args.push_back(arg);
+      }
+      oldMain(args);
+    }
     return 0;
   }
 }

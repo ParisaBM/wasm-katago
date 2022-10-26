@@ -2,6 +2,8 @@
 #include "../core/config_parser.h"
 #include "../core/fileutils.h"
 #include "../core/timer.h"
+#include "../core/using.h"
+#include "../core/web_interface.h"
 #include "../dataio/sgf.h"
 #include "../search/asyncbot.h"
 #include "../program/setup.h"
@@ -15,8 +17,6 @@
 #include <map>
 #include <sstream>
 #include <fstream>
-
-using namespace std;
 
 static NNEvaluator* createNNEval(int maxNumThreads, CompactSgf* sgf, const string& modelFile, Logger& logger, ConfigParser& cfg, const SearchParams& params);
 
@@ -538,7 +538,7 @@ int MainCmds::genconfig(const vector<string>& args, const string& firstCommand) 
       try {
         cout << prompt << std::flush;
         string line;
-        if(std::getline(std::cin, line)) {
+        if(WebInterface::getline(cin, line)) {
           parse(Global::trim(line));
           break;
         }

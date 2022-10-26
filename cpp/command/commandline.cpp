@@ -3,11 +3,10 @@
 #include "../core/fileutils.h"
 #include "../core/os.h"
 #include "../core/logger.h"
+#include "../core/using.h"
 #include "../dataio/homedata.h"
 #include "../program/setup.h"
 #include "../main.h"
-
-using namespace std;
 
 //--------------------------------------------------------------------------------------
 

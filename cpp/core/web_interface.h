@@ -4,20 +4,29 @@
 #include <sstream>
 #include <emscripten.h>
 
-extern "C" char* do_fetch();
+extern "C" char* doFetch();
 
-namespace web_interface {
-  class custom_istream {};
+namespace WebInterface {
+  struct customIstream {
+    explicit operator bool() const;
+  };
 
   template <typename T>
-  custom_istream& operator>>(custom_istream& ci, T& obj) {
-    char* received = do_fetch();
+  customIstream& operator>>(customIstream& ci, T& obj) {
+    char* received = doFetch();
     std::istringstream is(received);
     is >> obj;
     return ci;
   }
 
-  extern custom_istream cin;
+  template <typename T>
+  customIstream& getline(customIstream& ci, T& str) {
+    str = doFetch();
+    return ci;
+  }
+
+
+  extern customIstream cin;
 }
 
 #endif

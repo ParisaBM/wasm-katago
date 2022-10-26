@@ -3,6 +3,7 @@
 #include "../core/timer.h"
 #include "../core/datetime.h"
 #include "../core/makedir.h"
+#include "../core/using.h"
 #include "../search/asyncbot.h"
 #include "../search/patternbonustable.h"
 #include "../program/setup.h"
@@ -13,7 +14,6 @@
 
 #include "../external/nlohmann_json/json.hpp"
 
-using namespace std;
 using json = nlohmann::json;
 
 struct AnalyzeRequest {

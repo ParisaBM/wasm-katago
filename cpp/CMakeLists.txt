@@ -16,7 +16,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file model.bin.gz")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --preload-file gtp_custom.cfg")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --shell-file template.html")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ASYNCIFY")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ASYNCIFY_IMPORTS=do_fetch")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ASYNCIFY_IMPORTS=doFetch")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 #--------------------------- PLATFORM SPECIFIC -------------------------------------------------------------------------
 

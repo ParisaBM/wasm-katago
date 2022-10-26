@@ -47,7 +47,6 @@ int MainCmds::contribute(const std::vector<std::string>& args) {
 #endif
 
 using json = nlohmann::json;
-using namespace std;
 
 static std::atomic<bool> sigReceived(false);
 static std::atomic<bool> shouldStopGracefully(false);

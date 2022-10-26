@@ -1,9 +1,8 @@
 #include "web_interface.h"
 #include <stdlib.h>
 
-EM_JS(char*, do_fetch, (), {
+EM_JS(char*, doFetch, (), {
   return Asyncify.handleAsync(function () {
-    out("waiting for a fetch");
     const p = new Promise((res) => resolve_input = res);
     return p.then(function (jsString) {
         var lengthBytes = lengthBytesUTF8(jsString)+1;
@@ -14,6 +13,10 @@ EM_JS(char*, do_fetch, (), {
   });
 });
 
-namespace web_interface {
-  custom_istream cin = custom_istream();
+namespace WebInterface {
+  customIstream::operator bool() const {
+    return true;
+  }
+
+  customIstream cin = customIstream();
 }

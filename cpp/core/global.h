@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <list>
 #include "web_interface.h"
 
 //GLOBAL DEFINES AND FLAGS----------------------------------------------------
