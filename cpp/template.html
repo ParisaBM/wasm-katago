@@ -67,7 +67,7 @@
     <input id="input_forum" type="text" onkeypress="keyPressed(event)">
 
     <hr/>
-    <textarea class="emscripten" id="output" rows="8"></textarea>
+    <textarea class="emscripten" id="output" rows="30"></textarea>
     <hr>
     <script type='text/javascript'>
       var resolve_input;
@@ -80,6 +80,7 @@
         if (event.key == "Enter") {
           provided = document.getElementById("input_forum").value;
           resolve_input(provided);
+          document.getElementById("input_forum").value = "";
         }
       }
 
